@@ -1,5 +1,9 @@
 import collections
 import sys
+INT_MIN = -sys.maxsize - 1
+INT_MAX = sys.maxsize
+print(INT_MIN)
+print("INT_MAX", INT_MAX)
 '''
 Input: a List of integers as well as an integer `k` representing the size of the sliding window
 Returns: a List of integers
@@ -55,22 +59,37 @@ def sliding_window_max2(nums, k):  # this is fixed windows
     return maxVal
 
 
-# def sliding_window_smallest_subarray(nums, targetSum):  # find the best k
-#     size = 0
-#     windowsum = 0
-#     start = 0
+# def maxSum(nums, k):
+#     size = len(nums)
+#     intmin = 0
 
-#     for windend in range(len(arr)):
-#         windowsum += nums[windend]
-#         # add values in linear fashion
-#         # if we exceed the value(greater than equal to target sum)
+#     if not size > k:
+#         return -1
 
-#         while windowsum >= targetSum:  # we're trying to shrink the target sum
-#             size = min(size, windend)
-#             # shrink left hand size
-#             windowsum -= nums[start]
-#             start += 1
-#     return size
+
+def sliding_window_smallest_subarray(targetSum, nums):  # find the best k
+    size = INT_MAX
+    windowsum = 0
+    start = 0
+
+    for windend in range(len(nums)):
+        # print(windend)
+        # print("windowsum", windowsum)
+        windowsum += nums[windend]
+        print("windowsum2", windowsum, targetSum)
+
+        # add values in linear fashion
+        # if we exceed the value(greater than equal to target sum)
+
+        # can i do better
+        while windowsum >= targetSum:  # we're trying to shrink the target sum
+            # windend-start+1 --> delta of when it starts
+            size = min(size, windend-start+1)
+            print("size", size)
+            # shrink left hand size
+            windowsum -= nums[start]
+            start += 1
+    return size
 
 
 if __name__ == '__main__':
@@ -79,7 +98,7 @@ if __name__ == '__main__':
     arr2 = [4, 2, 2, 7, 8, 1, 2, 8, 10]
     arr3 = [1, 3, -1, -3, 5, 3, 6, 7]
     k = 3
-    m = 8
+    targetSum = 8
 
     print(
         f"Output of sliding_window_max function is: {sliding_window_max(arr3, k)}")
@@ -88,4 +107,7 @@ if __name__ == '__main__':
         f"Output of sliding_window_max function is: {sliding_window_max2(arr, k)}")
 
     # print(
-    #     f"Output of sliding_window_max function is: {sliding_window_smallest_subarray(arr2, m)}")
+    # f"Output of sliding_window_max function is: {maxSum(arr, k)}")
+
+    print(
+        f"Output of sliding_window_max function is: {sliding_window_smallest_subarray(targetSum, arr2)}")
